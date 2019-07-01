@@ -1,0 +1,30 @@
+{# Utilisation du systeme de layout #}
+
+{% extends 'base.html.twig' %}
+
+{% block title 'Application Refresh' %}
+
+{% block body %}
+<div class="jumbotron text-center">
+    <h1>Refresh<h1>
+    <p>Nous sommes très heureux de vous confirmer votre inscription sur Refresh. 
+    Toute l’équipe de Refresh vous remercie de votre confiance et vous souhaite la bienvenue.</p>
+<div>
+
+<div class="container">
+    <h2>Les derniers projets</h2>
+    {% for project in projects %}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href= "{{ path('project.show' , {id: project.id, slug: project.slug}) }}">{{ project.title }}</a>
+                    </h5>
+                    <p class="card-text">{{ project.surface}} m²</p>
+                    <div class="text-primary">édité le {{ project.formatedDate }}</div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

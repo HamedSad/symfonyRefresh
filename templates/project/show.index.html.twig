@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mon projet Y' %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ project.title}}<h1>
+        Récapitulatif : 
+        <p>édité le {{project.formatedDate}} </p>
+        <p>{{project.description}}</p>
+        <p>Pièce de : {{project.area}} m²</p>
+        <p>Sol en {{project.ground}}</p>
+
+
+<div>
+
+</div>
+{% endblock %}
