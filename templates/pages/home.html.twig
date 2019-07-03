@@ -12,8 +12,9 @@
 <div>
 
 <div class="container">
-    <h2>Les derniers projets</h2>
+    <h2>Mes derniers projets</h2>
     {% for project in projects %}
+        <div class="row">
         <div class="col-4">
             <div class="card">
                 <div class="card-body">
@@ -25,6 +26,7 @@
                 </div>
             </div>
         </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

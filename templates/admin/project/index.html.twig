@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les projets' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Gérer les biens</h1>
+
+    <!-- Pour toutes les actions ayant un message de confirmation -->
+    {% for message in app.flashes('success')%}
+        <div class="alert alert-success">{{message}}</div>
+    {% endfor %}
+
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for project in projects %}
+        <tr>
+            <td>{{ project.title }}</td>
+            <td>
+                <!-- Création d'une nouvelle route qu'il faudra mettre en place dans le controller -->
+                <a href="{{ path('admin.project.edit', {id: project.id}) }}" class="btn btn-secondary">Editer</a>
+                
+                <form  method="post" action="{{ path('admin.project.delete', {id: project.id}) }}" style="display: inline-block" method="post" onsubmit="return confirm('Etes-vous vraiment sure?')">
+                    <!-- Fonctionnalité de symfony permettant de donner une méthode différante de la methode post, on mettra une methode DELETE -->
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        <!-- La route de la methode que l'on va utiliser -->
+        <a href="{{ path('admin.project.new') }}" class="btn btn-primary">Créer un nouveau projet</a>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

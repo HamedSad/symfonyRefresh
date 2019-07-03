@@ -119,6 +119,11 @@ class Project
         return $this;
     }
 
+    public function getGroundType() : string {
+        return self::GROUND[$this->ground];
+
+    }
+
     public function getArea(): ?float
     {
         return $this->area;
