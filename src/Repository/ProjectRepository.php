@@ -19,7 +19,7 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    // // Pour les methodes custom si je veux obtenir que les projet avec terminé en false
+    // // Pour les methodes custom si je veux obtenir que les projeté avec terminé en false
     // public function findAllVisible(){
     //     return $this->createQueryBuilder('p')
     //         ->where('p.terminé = false')

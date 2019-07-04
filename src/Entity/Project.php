@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
+ * Cette valeur doit etre unique
+ * @UniqueEntity("title")
  */
 class Project
 {
@@ -28,12 +32,16 @@ class Project
     private $title;
 
     /**
+     *@Assert\Length( min = 10,  
+     * minMessage = "La description doit comporter au minimum {{ limit }} caractères")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     *Limité entre 10 et 400m²
+     *@Assert\Range(min=10, max=400)
      */
     private $surface;
 
@@ -43,6 +51,7 @@ class Project
     private $ground;
 
     /**
+     *
      * @ORM\Column(type="float")
      */
     private $area;
