@@ -21,6 +21,17 @@
                           <a class="nav-link" {% if current_menu is defined and current_menu == 'projects' %} active {% endif %} href="{{ path('project.index') }}">Mes projets</a>
                         </li>
                       </ul>
+
+                      <!-- On va mettre un bouton déconexion, pour cela, on vérifie si l'user est deja connecté
+                      <Va nous retourner true ou false -->
+                      {% if app.user %}
+                        <ul>
+                          <li class="navbar-nav">
+                            <a href="{{ path('logout') }}" class="nav-link">Se déconnecter</a>
+                          </li>
+                        </ul>
+                      {% endif %}
+                    
                     </div>
                   </nav>
 
