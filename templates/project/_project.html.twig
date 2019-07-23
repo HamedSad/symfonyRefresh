@@ -1,0 +1,11 @@
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">
+            <a href="{{ path('project.show', {slug: project.slug, id: project.id}) }}"> {{ project.title }}</a>
+        </h5>
+        <p class="card-text">sol en {{ project.ground }}</p>
+        <div class="text-primary" style="font-size:2rem">
+            Surface : {{ project.surface }} m² - Prix : {{ project.area}} €
+        </div>
+    </div>
+</div>

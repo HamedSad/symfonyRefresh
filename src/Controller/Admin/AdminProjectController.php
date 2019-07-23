@@ -11,8 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-
-
 class AdminProjectController extends AbstractController {
 
     /**
@@ -40,12 +38,7 @@ class AdminProjectController extends AbstractController {
     //Je génère ma vu via un return, que l'on va mettre ds un dossier admin et on lui envoie un tableau comportant projects
         return $this->render('admin/project/index.html.twig', compact('projects'));
     }
-
-
-
-
-
-    
+   
         /**
         *@Route("admin/project/create", name="admin.project.new", methods="GET|POST")
         */
@@ -78,7 +71,7 @@ class AdminProjectController extends AbstractController {
 
     
     //Methode index pour éditer un projet
-    //Ds les arguments, injection pour récupérer les projets qui m'intéresse
+    //Ds les arguments, injection pour récupérer les projets qui m'intéressent
 
     /**
     *@Route("/admin/project/{id}", name="admin.project.edit")
@@ -111,9 +104,6 @@ class AdminProjectController extends AbstractController {
         ]);     
     }
 
-    
-
-
     /**
     *@Route("/admin/projet/{id}", name="admin.project.delete", methods="DELETE")
     *@param Project $project
@@ -132,6 +122,4 @@ class AdminProjectController extends AbstractController {
             
             return $this->redirectToRoute('admin.project.index');
         }
-      
-       
 }

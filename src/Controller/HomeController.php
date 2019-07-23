@@ -14,8 +14,6 @@ class HomeController extends AbstractController{
     *@return Response
     *
     */
-
-
     public function index(ProjectRepository $repository): Response{
         //Obtenir les derniers projets
         $projects = $repository->findLatest();

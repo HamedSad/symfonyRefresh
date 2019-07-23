@@ -5,9 +5,39 @@
 {% block title 'Mes projets' %}
 
 {% block body %}
+
+<div class="class jumbotron">
+    <div class="class container">
+        {{ form_start(form) }}
+        <div class="form-row">
+            <div class="col">
+                {{ form_row(form.minSurface) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.maxArea) }}
+            </div>
+            <div class="col">
+                <button class="btn btn-primary">Rechercher</class>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
 <div class="jumbotron text-center">
     <h1>Liste de tous mes projets<h1><br>
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-md-4">
+            {% include 'project/_project.html.twig' %}
+        </div>
+        {% endfor %}
+    </div>
 <div>
+
+    <div class="class pagination">
+        {{ knp_pagination_render(projects) }}
+    </div>
 
 <ul>
     <li>Mes projets salle de bain</li>

@@ -15,9 +15,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Project
 {
 
-    const GROUND = [1=>'moquette' ,
-    2=>'lino',
-    3=>'parquet',
+    const GROUND = [
+    0=>'moquette' ,
+    1=>'lino',
+    2=>'parquet',
+    3=>'carrelage',
     4=>'autre'];
     /**
      * @ORM\Id()
@@ -162,14 +164,14 @@ class Project
         return $this->date;
     }
 
-    public function getFormatedDate() : string{
-        return date_format($this->date, date('d-m-Y'));
-    }
-
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
         return $this;
+    }
+
+    public function getFormatedDate() : string{
+        return date_format($this->date, date('d-m-Y'));
     }
 }

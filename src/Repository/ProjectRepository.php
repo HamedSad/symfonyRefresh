@@ -5,6 +5,10 @@ namespace App\Repository;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Query;
+use App\Entity\ProjectSearch;
 
 /**
  * @method Project|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,24 +23,48 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    // // Pour les methodes custom si je veux obtenir que les projeté avec terminé en false
-    // public function findAllVisible(){
-    //     return $this->createQueryBuilder('p')
-    //         ->where('p.terminé = false')
-    //         //récupérer la requete
-    //         ->getQuery()
-    //         //récupérer le résultat
-    //         ->getResult();
-    // }
+    /**
+    *@return Query
+    *
+    */
+    public function findAllVisibleQuery(ProjectSearch $search) : Query {
+        $query = $this->findVisibleQuery();
 
+            if($search->getMaxArea()){
+                $query = $query
+                ->andWhere('p.area < :maxarea' )
+                ->setParameter('maxarea', $search->getMaxArea());
+            }
+
+            if($search->getMinSurface()){
+                $query = $query
+                ->andWhere('p.surface >= :minsurface' )
+                ->setParameter('minsurface', $search->getMinSurface());
+            }
+
+            //récupérer la requete
+            return $query->getQuery();
+           
+    }
+
+    /**
+     * @return Project[]
+     */
     public function findLatest() : array {
-        return $this->createQueryBuilder('p')
+        return $this->findVisibleQuery()
             ->setMaxResults(4)
             //->where('p.terminé = false')
             //récupérer la requete
             ->getQuery()
             //récupérer le résultat
             ->getResult();
+    }
+
+
+
+    private function findVisibleQuery() : DoctrineQueryBuilder{
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC');
     }
 
     // /**

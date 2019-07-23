@@ -2,48 +2,54 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
+use App\Entity\ProjectSearch;
+use App\Form\ProjectSearchType;
+use App\Repository\ProjectRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Project;
-use App\Repository\ProjectRepository;
+
 
 class ProjectController extends AbstractController{
 
-    public function __construct(ProjectRepository $repository){
+    public function __construct(ProjectRepository $repository, ObjectManager $em){
         $this->repository = $repository;
+        //EntityManager classe responsable de gerer les données ds la BDD  
+        $this->em = $em;
     }
     
 
     /**
-    *Page les biens et le nom du path présent dans le template
     *@Route("/mesprojets", name="project.index")
     *@return Response
     */
+    public function index(PaginatorInterface $paginator, Request $request): Response{
 
-    public function index(ProjectRepository $repository): Response{
-        // //Pour interagir avec la bdd, création d'une nouvelle entité
-        // $project = new Project();
-        // $project->setTitle('Mon premier projet')
-        //         ->setArea(12)
-        //         ->setDescription('Ce projet a été réalisé il y a quelques années')
-        //         ->setGround(2)
-        //         ->setSurface(15)
-        //         ->setUser(1);
-        // //EntityManager classe responsable de gerer les données ds la BDD  
-        // $em = $this->getDoctrine()->getManager();
-        // $em->persist($project);
-        // $em->flush();
-        
-        // //Pour initialiser le repo dans une variable
-        // $repository = $this->getDoctrine()->getRepository(Project::class);
-        // dump($repository);
+        //Creation d'une nouvelle entité
+        $search = new ProjectSearch();
 
+        $form = $this->createForm(ProjectSearchType::class, $search);
+
+        //Gérer la requete
+        $form->handleRequest($request);
+      
+
+        $projects = $paginator->paginate(
+            $this->repository->findAllVisibleQuery($search),
+            $request->query->getInt('page', 1),
+            12
+        );
         //Il existe des methodes de base find(), findAll(), findOneBy
         // $property = $this->repository->findOneBy(['ground'=>2]);
-        // dump($property);
         return $this->render('project/index.html.twig',[
-            'current_menu' => 'projects'
+            'current_menu' => 'projects',
+            'projects' => $projects,
+            //je lui demande d'afficher le formulaire de recherche avec le createView
+            'form' => $form->createView()
         ]);
     }
 
@@ -62,4 +68,6 @@ class ProjectController extends AbstractController{
             'current_menu' => 'projects'
         ]);
     }
+
+
 }
